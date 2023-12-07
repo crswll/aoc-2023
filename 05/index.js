@@ -10,27 +10,25 @@ Distance:   333   1635   1289   1532
 
 
 function run (input) {
-  const getRace = (rows, raceNumber) => rows.map(row => row[raceNumber])
-  // const rows = input.split("\n").map(line => line.split(/\s+/g).slice(1).map(Number)) // Part 1
-  const rows = input.split("\n").map(line => [+line.split(/\s+/g).slice(1).join('')]) // Part 2
+  const zip = (a, b) => a.map((k, i) => [k, b[i]])
+  const rows = input.split("\n").map(line => line.split(/\s+/g).slice(1).map(Number)) // Part 1
+  // const rows = input.split("\n").map(line => [+line.split(/\s+/g).slice(1).join('')]) // Part 2
 
-  const recordBreaks = []
-
-
-  for (let i = 0; i < rows[0].length; i++) {
-    const [time, record] = getRace(rows, i)
+  const recordBreakers = (time, record) => {
     let wins = 0
-
-    for (let hold = time - 1; hold > 0; hold--) {
+    for (let hold = 0; hold < time; hold++) {
       const distance = (time - hold) * hold
       if (distance > record) {
         wins++
       }
     }
-    recordBreaks.push(wins)
+    return wins
   }
 
-  return recordBreaks.reduce((acc, n) => acc * n)
+  return zip(rows[0], rows[1])
+    .map(([time, record]) => recordBreakers(time, record))
+    .reduce((acc, n) => acc * n)
 }
 
-console.log(run(input)) // 288, 140220
+console.log(run(example)) // 288
+console.log(run(input)) // 140220
