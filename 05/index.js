@@ -22,7 +22,7 @@ function run (input) {
     let wins = 0
 
     for (let hold = time - 1; hold > 0; hold--) {
-      const distance = (time - hold) * (time - (time - hold))
+      const distance = (time - hold) * hold
       if (distance > record) {
         wins++
       }
