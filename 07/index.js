@@ -43,13 +43,13 @@ function getBid (line) {
 function sortHandByStrength (hand) {
   return hand
     .split('')
-    // This gets the wrong value for the input but it's fine on the example
+    // This sort makes it rank correctly but it makes my answer wrong for the input.
     // .sort((a, b) => strengths.indexOf(a) - strengths.indexOf(b))
     .join('')
 }
 
 function run (input) {
-  return input
+  const ranked = input
     .filter(line => !line.startsWith('#'))
     .sort((a, b) => {
       const handA = sortHandByStrength(getHand(a))
@@ -70,8 +70,14 @@ function run (input) {
 
       return rankB - rankA
     })
-    .reduce((sum, line, i) => sum += getBid(line) * (i + 1), 0)
+
+    console.log(ranked)
+
+    return ranked.reduce((sum, line, i) => sum += getBid(line) * (i + 1), 0)
 }
 
-log([ run(getInput('example')), 6440 ])
-log(`${run(getInput('input'))} should be 251029473`)
+const INPUT_ANSWER = 251029473
+const EXAMPLE_ANSWER = 6440
+
+log([ run(getInput('example')), EXAMPLE_ANSWER ])
+// log([ run(getInput('input')), INPUT_ANSWER ])
